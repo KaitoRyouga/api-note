@@ -20,14 +20,11 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
       - name: Build image
-        run: docker-compose -f docker-compose.production.yml -p todo build
+        run: docker-compose -f docker-compose.production.yml -p note build
 
       - name: Push image
         run: |
           VERSION=latest
 
-          docker tag todo_ui docker.pkg.github.com/kaitoryouga/todo/todo_ui:$VERSION
-          docker push docker.pkg.github.com/kaitoryouga/todo/todo_ui:$VERSION
-
-          docker tag todo_api docker.pkg.github.com/kaitoryouga/todo/todo_api:$VERSION
-          docker push docker.pkg.github.com/kaitoryouga/todo/todo_api:$VERSION
+          docker tag note_api docker.pkg.github.com/kaitoryouga/note-api/note_api:$VERSION
+          docker push docker.pkg.github.com/kaitoryouga/note-api/note_api:$VERSION
