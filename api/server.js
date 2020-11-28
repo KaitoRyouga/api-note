@@ -8,7 +8,7 @@ app1.disable("x-powered-by");
 let helmet = require("helmet");
 let app = express();
 app.use(helmet.hidePoweredBy());
-const port = 8080;
+const port = 80;
 
 const cors = require('cors');
 app.use(cors());
