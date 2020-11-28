@@ -23,5 +23,5 @@ COPY ./ ./
 # RUN rm -Rf ./code && mkdir code
 # COPY ./code ./code
 
-EXPOSE 8080
+EXPOSE 80
 CMD [ "yarn", "run", "start" ]

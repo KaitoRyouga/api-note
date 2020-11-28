@@ -24,5 +24,5 @@ COPY ./ ./
 # COPY ./code ./code
 
 RUN chmod +x ./node_modules/.bin/nodemon
-EXPOSE 8080
+EXPOSE 80
 CMD [ "yarn", "run", "dev" ]
