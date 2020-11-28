@@ -1,5 +1,5 @@
   
-name: Docker
+name: Docker-note
 
 on:
   push:
@@ -26,5 +26,5 @@ jobs:
         run: |
           VERSION=latest
 
-          docker tag note_api docker.pkg.github.com/kaitoryouga/note-api/note_api:$VERSION
-          docker push docker.pkg.github.com/kaitoryouga/note-api/note_api:$VERSION
+          docker tag note_api docker.pkg.github.com/kaitoryouga/api-note/note_api:$VERSION
+          docker push docker.pkg.github.com/kaitoryouga/api-note/note_api:$VERSION
