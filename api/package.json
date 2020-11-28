@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "api for todoapp",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js localhost 8080",
+    "build": "webpack",
+    "dev": "nodemon server.js localhost 8080"
+  },
+  "author": "kaito",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

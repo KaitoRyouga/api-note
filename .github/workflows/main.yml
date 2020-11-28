@@ -1,0 +1,33 @@
+  
+name: Docker
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  IMAGE_NAME: image
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: docker-compose -f docker-compose.production.yml -p todo build
+
+      - name: Push image
+        run: |
+          VERSION=latest
+
+          docker tag todo_ui docker.pkg.github.com/kaitoryouga/todo/todo_ui:$VERSION
+          docker push docker.pkg.github.com/kaitoryouga/todo/todo_ui:$VERSION
+
+          docker tag todo_api docker.pkg.github.com/kaitoryouga/todo/todo_api:$VERSION
+          docker push docker.pkg.github.com/kaitoryouga/todo/todo_api:$VERSION

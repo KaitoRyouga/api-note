@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  api:
+    restart: always
+    build: ./api
+    volumes: 
+      - /api-note/api/code:/app/api/code
+    ports:
+      - '8080:8080'
