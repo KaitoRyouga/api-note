@@ -4,10 +4,15 @@
 
 ### GET
 > `http://api.kaito.ninja/users`
+
 > `http://api.kaito.ninja/users/6`
+
 > `http://api.kaito.ninja/boards`
+
 > `http://api.kaito.ninja/boards/6`
+
 > `http://api.kaito.ninja/notes`
+
 > `http://api.kaito.ninja/notes/6`
 
 ---
@@ -80,5 +85,7 @@
 
 ### DELETE
 > `http://api.kaito.ninja/users/5`
+
 > `http://api.kaito.ninja/boards/5`
+
 > `http://api.kaito.ninja/notes/5`
