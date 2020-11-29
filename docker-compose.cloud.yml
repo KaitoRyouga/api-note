@@ -5,7 +5,7 @@ services:
     restart: always
     image: docker.pkg.github.com/kaitoryouga/api-note/note_api:latest
     volumes: 
-      - /api-note/api/code:/app/api/code
+      - /api-note/api:/app/api
     ports:
       - '80:80'
   watchtower:

@@ -7,6 +7,6 @@ services:
       context: ./api
       dockerfile: Dockerfile.production 
     volumes: 
-      - /api-note/api/code:/app/api/code
+      - /api-note/api:/app/api
     ports:
       - '80:80'

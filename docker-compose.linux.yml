@@ -5,6 +5,6 @@ services:
     restart: always
     build: ./api
     volumes: 
-      - /api-note/api/code:/app/api/code
+      - /api-note/api:/app/api
     ports:
-      - '8080:8080'
+      - '80:80'
