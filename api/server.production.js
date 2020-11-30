@@ -1,7 +1,12 @@
 const express = require('express'),
    app = express(),
    bodyParser = require('body-parser');
-const port = process.env.PORT || 80;
+
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const port = process.env.PORT_PRODUCT;
 app.listen(port);
 
 console.log('API server started on: ' + port);

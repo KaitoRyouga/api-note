@@ -1,5 +1,9 @@
 const authMethod = require('./methods');
 
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 exports.isAuth = async (req, res, next) => {
 
 	// get access token from header
@@ -9,7 +13,7 @@ exports.isAuth = async (req, res, next) => {
 		return res.status(401).send('Not found access token!');
 	}
 
-	const accessTokenSecret = 'Kaito1@3';
+	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
 
 	const verified = await authMethod.verifyToken(
 		accessTokenFromHeader.replace('Bearer ', ''),
@@ -29,7 +33,7 @@ exports.isAuth = async (req, res, next) => {
 exports.login = async (req, res) => {
     const accessToken = await authMethod.generateToken(
         req,
-        'Kaito1@3',
+        process.env.ACCESSTOKENSECRET,
     );
     if (!accessToken) {
         return res

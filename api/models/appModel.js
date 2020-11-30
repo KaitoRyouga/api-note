@@ -1,9 +1,10 @@
 'user strict';
-var sql = require('./db.js');
+const sql = require('./db.js');
+const bcrypt = require('bcryptjs')
 
 // ###############################################################################################
 
-var User = function(user){
+const User = function(user){
     this.username = user.username;
     this.password = user.password;
 };
@@ -33,11 +34,12 @@ User.getUserById = function getUser(userId, result) {
 };
 
 User.checkLogin = function getUser(user, result) {
-    sql.query("Select password from USER_NOTE where username= ? ", user.username, function (err, res) {
+    sql.query("Select password from USER_NOTE where username= ? ", user.username, async function (err, res) {
+        const isPasswordMatch = await bcrypt.compare(user.password, res[0].password)
         if(err) {
             result(err, null);
         }
-        else if (user.password === res[0].password){
+        else if (isPasswordMatch){
             result(null, user.username);
         }else{
             result('Wrong password!', null);
@@ -56,7 +58,10 @@ User.getUserByUsername = function getUser(username, result) {
     });
 };
 
-User.createUser = function createUser(newUser, result) {
+User.createUser = async function createUser(newUser, result) {
+
+    newUser.password = await bcrypt.hash(newUser.password, 8);
+
     sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
 
         if(err) {
@@ -94,7 +99,7 @@ User.remove = function(id, result){
 
 // ###############################################################################################
 
-var Board = function(board){
+const Board = function(board){
     this.name = board.name;
     this.user_id = board.user_id;
 };
@@ -161,7 +166,7 @@ Board.remove = function(id, result){
 
 // ###############################################################################################
 
-var Note = function(note){
+const Note = function(note){
     this.name = note.name;
     this.board_id = note.board_id;
     this.done = note.done;

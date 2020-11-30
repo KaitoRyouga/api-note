@@ -1,13 +1,16 @@
 'user strict';
 
-var mysql = require('mysql');
+const mysql = require('mysql');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 //local mysql db connection
-var connection = mysql.createConnection({
-    host     : 'sql.kaito.ninja',
-    user     : 'kr',
-    password : 'Kaito1@3',
-    database : 'NoteManager'
+const connection = mysql.createConnection({
+    host     : process.env.HOST_DB,
+    user     : process.env.USER_DB,
+    password : process.env.PASS_DB,
+    database : process.env.DB
 });
 // connect to database
 connection.connect(function(err) {

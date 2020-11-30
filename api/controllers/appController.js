@@ -27,7 +27,8 @@ exports.check_user = function(req, res) {
     Task.User.checkLogin(userLogin, function(err, user) {
         if (err)
             res.send(err);
-        login(user, res);
+        else
+            login(user, res);
     });
 };
 
