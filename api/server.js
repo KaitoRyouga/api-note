@@ -1,7 +1,7 @@
 const express = require('express'),
    app = express(),
    bodyParser = require('body-parser');
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 9090;
 app.listen(port);
 
 console.log('API server started on: ' + port);

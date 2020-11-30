@@ -1,6 +1,8 @@
 'use strict';
 
-var Task = require('../models/appModel.js');
+const Task = require('../models/appModel.js');
+const authMiddleware = require('../middleware/middlewares');
+const login = authMiddleware.login;
 
 // ###############################################################################################
 
@@ -9,6 +11,23 @@ exports.list_all_users = function(req, res) {
         if (err)
             res.send(err);
         res.send(user);
+    });
+};
+
+exports.list_user = function(req, res) {
+    Task.User.getUserByUsername(req.user, function(err, user) {
+        if (err)
+            res.send(err);
+        res.send(user);
+    });
+};
+
+exports.check_user = function(req, res) {
+    const userLogin = req.body;
+    Task.User.checkLogin(userLogin, function(err, user) {
+        if (err)
+            res.send(err);
+        login(user, res);
     });
 };
 

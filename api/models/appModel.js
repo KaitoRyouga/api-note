@@ -32,6 +32,30 @@ User.getUserById = function getUser(userId, result) {
     });
 };
 
+User.checkLogin = function getUser(user, result) {
+    sql.query("Select password from USER_NOTE where username= ? ", user.username, function (err, res) {
+        if(err) {
+            result(err, null);
+        }
+        else if (user.password === res[0].password){
+            result(null, user.username);
+        }else{
+            result('Wrong password!', null);
+        }
+    });
+};
+
+User.getUserByUsername = function getUser(username, result) {
+    sql.query("Select username from USER_NOTE where username = ? ", username, function (err, res) {
+        if(err) {
+            result(err, null);
+        }
+        else{
+            result(null, res);
+        }
+    });
+};
+
 User.createUser = function createUser(newUser, result) {
     sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
 
