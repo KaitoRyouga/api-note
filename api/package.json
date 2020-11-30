@@ -4,9 +4,9 @@
   "description": "api for todoapp",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js localhost 9090",
+    "start": "node server.js localhost 80",
     "build": "webpack",
-    "dev": "nodemon server.js localhost 9090"
+    "dev": "nodemon server.js localhost 80"
   },
   "author": "kaito",
   "license": "ISC",
