@@ -5,6 +5,6 @@ services:
     restart: always
     build: ./api
     volumes: 
-      - /api-note/api:/app/api
+      - /api-note/api:/usr/src/app/api
     ports:
       - '80:80'
