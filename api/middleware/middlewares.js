@@ -3,7 +3,7 @@ const authMethod = require('./methods');
 exports.isAuth = async (req, res, next) => {
 
 	// get access token from header
-	const accessTokenFromHeader = req.headers.authorization.replace('Bearer ', '');
+	const accessTokenFromHeader = req.headers.authorization;
 
 	if (!accessTokenFromHeader) {
 		return res.status(401).send('Not found access token!');
@@ -12,7 +12,7 @@ exports.isAuth = async (req, res, next) => {
 	const accessTokenSecret = 'Kaito1@3';
 
 	const verified = await authMethod.verifyToken(
-		accessTokenFromHeader,
+		accessTokenFromHeader.replace('Bearer ', ''),
 		accessTokenSecret,
 	);
 	if (!verified) {

@@ -6,7 +6,7 @@ module.exports = function(app) {
 
     // Users Routes
     app.route('/users')
-        .get(NoteAPI.list_all_users)
+        .get(isAuth, NoteAPI.list_all_users)
         .post(NoteAPI.create_a_user);
 
     app.route('/users/:userId')
@@ -16,7 +16,7 @@ module.exports = function(app) {
 
     // Board Routes
     app.route('/boards')
-        .get(NoteAPI.list_all_board)
+        .get(isAuth, NoteAPI.list_all_board)
         .post(NoteAPI.create_a_board);
 
     app.route('/boards/:boardId')
@@ -26,7 +26,7 @@ module.exports = function(app) {
 
     // Note Routes
     app.route('/notes')
-        .get(NoteAPI.list_all_note)
+        .get(isAuth, NoteAPI.list_all_note)
         .post(NoteAPI.create_a_note);
 
     app.route('/notes/:noteId')
@@ -39,5 +39,5 @@ module.exports = function(app) {
         .get(isAuth, NoteAPI.list_user)
 
     app.route('/login')
-        .get(NoteAPI.check_user)
+        .post(NoteAPI.check_user)
 };

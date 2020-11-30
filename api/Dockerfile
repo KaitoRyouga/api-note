@@ -18,11 +18,11 @@
 FROM node:12.2.0-alpine
 WORKDIR /usr/src/app/api
 COPY *.json ./
-RUN yarn
+RUN yarn install
 COPY ./ ./
 # RUN rm -Rf ./code && mkdir code
 # COPY ./code ./code
 
-RUN chmod +x ./node_modules/.bin/nodemon
-EXPOSE 80
-CMD [ "yarn", "run", "dev" ]
+# RUN chmod +x ./node_modules/.bin/nodemon
+EXPOSE 9090
+CMD [ "yarn", "dev" ]
