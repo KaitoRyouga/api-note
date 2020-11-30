@@ -89,3 +89,11 @@
 > `http://api.kaito.ninja/boards/5`
 
 > `http://api.kaito.ninja/notes/5`
+
+---
+### Authentication
+> Add headers with: `Bearer XXX`
+
+```java
+EX: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiYWRtaW4iLCJpYXQiOjE2MDY3MjcyNDJ9.5Z4MGUKX11jnPvKxEdK43wYWBPiHDlsGbEQD1gxNh-o
+```
