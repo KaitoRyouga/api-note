@@ -71,7 +71,7 @@ User.createUser = async function createUser(newUser, fun, result) {
     sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
 
         try {
-            result(null, res.insertId);
+            result(null, res.insertId, newUser.username);
         } catch (error) {
 			return fun
 			.status(404)

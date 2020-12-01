@@ -67,7 +67,7 @@ exports.isAuth = async (req, res, next) => {
 };
 
 exports.login = async (req, res) => {
-	// console.log(req);
+	console.log(req);
     const accessToken = await authMethod.generateToken(
 		req,
         process.env.ACCESSTOKENSECRET,

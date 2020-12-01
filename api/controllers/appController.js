@@ -29,6 +29,7 @@ exports.check_user = function(req, res) {
             res.send(err);
         else
             login(user, res);
+            // console.log(user)
     });
 };
 
@@ -40,11 +41,18 @@ exports.create_a_user = function(req, res) {
         res.status(400).send({ error:true, message: 'Please provide Username' });
     }
     else{
-        Task.User.createUser(new_user, res, function(err, user) {
+        Task.User.createUser(new_user, res, function(err, userid, username ) {
+
+            const new_user = {
+                "username": username,
+                "id": userid
+            }
 
             if (err)
                 res.send(err);
-            res.json({message: 'Create user successfully'});
+            else {
+                login(new_user, res)
+            }
         });
     }
 };
