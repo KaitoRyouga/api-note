@@ -3,23 +3,21 @@
 ## METHOD
 
 ### GET
-> `http://api.kaito.ninja/users`
-
-> `http://api.kaito.ninja/users/6`
+> `http://api.kaito.ninja/user`
 
 > `http://api.kaito.ninja/boards`
 
-> `http://api.kaito.ninja/boards/6`
-
-> `http://api.kaito.ninja/notes`
+> `http://api.kaito.ninja/board/6`
 
 > `http://api.kaito.ninja/notes/6`
+
+> `http://api.kaito.ninja/notes/6/6`
 
 ---
 
 ### POST ( POST DATA JSON)
 
-> `http://api.kaito.ninja/users`
+> `http://api.kaito.ninja/user`
 
 ```json
 {
@@ -32,19 +30,16 @@
 > `http://api.kaito.ninja/boards`
 ```json
 {
-   "name": "Học tập của Tiến",
-   "user_id": 6
+   "name": "Học tập của Tiến"
 }
 ```
 
 ---
 
-> `http://api.kaito.ninja/notes`
+> `http://api.kaito.ninja/notes/6`
 ```json
 {
-   "name": "Docker",
-   "board_id": 6,
-   "done": 1
+   "name": "Docker"
 }
 ```
 
@@ -52,7 +47,7 @@
 
 ### PUT ( PUT DATA JSON)
 
-> `http://api.kaito.ninja/users/9`
+> `http://api.kaito.ninja/users`
 
 ```json
 {
@@ -65,35 +60,32 @@
 > `http://api.kaito.ninja/boards/7`
 ```json
 {
-   "name": "Học tập xyz",
-   "user_id": 1
+   "name": "Học tập xyz"
 }
 ```
 
 ---
 
-> `http://api.kaito.ninja/notes/11`
+> `http://api.kaito.ninja/notes/6`
 ```json
 {
    "name": "Docker Container",
-   "board_id": 6,
-   "done": 1
 }
 ```
 
 ---
 
 ### DELETE
-> `http://api.kaito.ninja/users/5`
+> `http://api.kaito.ninja/users`
 
 > `http://api.kaito.ninja/boards/5`
 
-> `http://api.kaito.ninja/notes/5`
+> `http://api.kaito.ninja/notes/5/5`
 
 ---
 ### Authentication
 > Add headers with: `Bearer XXX`
 
 ```java
-EX: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiYWRtaW4iLCJpYXQiOjE2MDY3MjcyNDJ9.5Z4MGUKX11jnPvKxEdK43wYWBPiHDlsGbEQD1gxNh-o
+EX: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiZ2ciLCJpZCI6MTZ9LCJpYXQiOjE2MDY4MTg1NTR9.o2OuH6b02IJ9AWgudaQGDzexod8s4frpkUrgL0_RtrU
 ```
