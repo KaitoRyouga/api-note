@@ -35,6 +35,8 @@ exports.checkAuth = async (req, res, next) => {
 
 exports.isAuth = async (req, res, next) => {
 
+	console.log(req)
+
 	// get access token from header
 	const accessTokenFromHeader = req.headers.authorization;
 
