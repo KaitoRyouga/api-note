@@ -3,14 +3,19 @@
 ## METHOD
 
 ### GET
+- Get user
 > `http://api.kaito.ninja/user`
 
+- Get all board
 > `http://api.kaito.ninja/boards`
 
+- Get 1 board
 > `http://api.kaito.ninja/board/6`
 
+- Get all note in board ( EX: board_id = 6 )
 > `http://api.kaito.ninja/notes/6`
 
+- Get 1 note in board ( EX: board_id = 6, node_id = 6 )
 > `http://api.kaito.ninja/notes/6/6`
 
 ---
@@ -36,6 +41,7 @@
 
 ---
 
+- Create a note in board ( board_id = 6 )
 > `http://api.kaito.ninja/notes/6`
 ```json
 {
@@ -47,7 +53,7 @@
 
 ### PUT ( PUT DATA JSON)
 
-> `http://api.kaito.ninja/users`
+> `http://api.kaito.ninja/user/put`
 
 ```json
 {
@@ -56,8 +62,7 @@
 }
 ```
 ---
-
-> `http://api.kaito.ninja/boards/7`
+> `http://api.kaito.ninja/boards/7/put`
 ```json
 {
    "name": "Học tập xyz"
@@ -66,7 +71,7 @@
 
 ---
 
-> `http://api.kaito.ninja/notes/6`
+> `http://api.kaito.ninja/notes/6/put`
 ```json
 {
    "name": "Docker Container",
@@ -76,11 +81,11 @@
 ---
 
 ### DELETE
-> `http://api.kaito.ninja/users`
+> `http://api.kaito.ninja/user/delete`
 
-> `http://api.kaito.ninja/boards/5`
+> `http://api.kaito.ninja/board/5/delete`
 
-> `http://api.kaito.ninja/notes/5/5`
+> `http://api.kaito.ninja/notes/5/5/delete`
 
 ---
 ### Authentication
