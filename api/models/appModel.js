@@ -21,26 +21,32 @@ User.getAllUser = function getAllUser(result) {
     });
 };
 
-User.getUserById = function getUser(userId, result) {
-    sql.query("Select username from USER_NOTE where id = ? ", userId, function (err, res) {
-        if(err) {
-            result(err, null);
-        }
-        else{
+User.getUserById = function getUser(userId, fun, result) {
+    sql.query("Select username from USER_NOTE where id = ? ", userId, function (err ,res) {
+        try {
             result(null, res);
-
+        } catch (error) {
+			return fun
+			.status(404)
+			.send('Not found!');
         }
     });
 };
 
 User.checkLogin = function getUser(user, result) {
-    sql.query("Select password from USER_NOTE where username= ? ", user.username, async function (err, res) {
+    sql.query("Select password, id from USER_NOTE where username = ? ", user.username, async function (err, res) {
         const isPasswordMatch = await bcrypt.compare(user.password, res[0].password)
+
+        const resultUser = {
+            username: user.username,
+            id: res[0].id
+        }
+
         if(err) {
             result(err, null);
         }
         else if (isPasswordMatch){
-            result(null, user.username);
+            result(null, resultUser);
         }else{
             result('Wrong password!', null);
         }
@@ -58,23 +64,25 @@ User.getUserByUsername = function getUser(username, result) {
     });
 };
 
-User.createUser = async function createUser(newUser, result) {
+User.createUser = async function createUser(newUser, fun, result) {
 
     newUser.password = await bcrypt.hash(newUser.password, 8);
 
     sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
 
-        if(err) {
-            result(err, null);
-        }
-        else{
+        try {
             result(null, res.insertId);
+        } catch (error) {
+			return fun
+			.status(404)
+			.send('Add user error: user already exists!');
         }
     });
 };
 
-User.updateById = function(id, user, result){
-    sql.query("UPDATE USER_NOTE SET username = ?, password = ? WHERE id = ?", [user.username, user.password, id], function (err, res) {
+User.updateById = async function(user, newPass, result){
+    const Hashpass = await bcrypt.hash(newPass, 8);
+    sql.query("UPDATE USER_NOTE SET username = ?, password = ? WHERE id = ?", [user.username, Hashpass, user.id], function (err, res) {
         if(err) {
             result(null, err);
         }
@@ -85,6 +93,8 @@ User.updateById = function(id, user, result){
 };
 
 User.remove = function(id, result){
+
+    // console.log(id)
     sql.query("DELETE FROM USER_NOTE WHERE id = ?", [id], function (err, res) {
 
         if(err) {
@@ -101,29 +111,27 @@ User.remove = function(id, result){
 
 const Board = function(board){
     this.name = board.name;
-    this.user_id = board.user_id;
 };
 
-Board.getAllBoard = function getAllBoard(result) {
-    sql.query("Select * from BOARD", function (err, res) {
-
-        if(err) {
-            result(null, err);
-        }
-        else{
+Board.getAllBoard = function getAllBoard(user_id, fun, result) {
+    sql.query("Select * from BOARD WHERE USER_ID = ?",user_id, function (err, res) {
+        try {
             result(null, res);
+        } catch (error) {
+			return fun
+			.status(404)
+			.send('Not found Boards!');
         }
     });
 };
 
-Board.getBoardById = function getBoard(boardId, result) {
-    sql.query("Select name from BOARD where id = ? ", boardId, function (err, res) {
+Board.getBoardById = function getBoard(boardId, user_id, result) {
+    sql.query("SELECT * FROM BOARD WHERE id = ? AND user_id = ?", [boardId, user_id], function (err, res) {
         if(err) {
             result(err, null);
         }
         else{
             result(null, res);
-
         }
     });
 };
@@ -142,7 +150,8 @@ Board.createBoard = function createBoard(newBoard, result) {
 };
 
 Board.updateById = function(id, board, result){
-    sql.query("UPDATE BOARD SET name = ?, user_id = ? WHERE id = ?", [board.name, board.user_id, id], function (err, res) {
+    // console.log(board)
+    sql.query("UPDATE BOARD SET name = ? WHERE id = ? and user_id = ?", [board.name, id, board.user_id], function (err, res) {
         if(err) {
             result(null, err);
         }
@@ -152,14 +161,38 @@ Board.updateById = function(id, board, result){
     });
 };
 
-Board.remove = function(id, result){
-    sql.query("DELETE FROM BOARD WHERE id = ?", [id], function (err, res) {
+Board.remove = function(id, token, result){
+    sql.query("DELETE FROM BOARD WHERE id = ? and user_id = ?", [id, token.id], function (err, res) {
 
         if(err) {
             result(null, err);
         }
         else{
             result(null, res);
+        }
+    });
+};
+
+Board.checkBoard = function(boardId, token, result){
+    sql.query("Select ID from BOARD WHERE user_id = ?", [token.id], function (err, res) {
+
+        let checkkk = res.map(check => {
+            if (boardId != check.ID){
+                return false;
+            } 
+        })
+
+        var sum = 0
+        for (let i = 0; i < checkkk.length; i++) {
+            if (checkkk[i] == false) {
+                sum += 1;
+            }     
+        }
+
+        if (sum == checkkk.length) {
+            result("You are not authorized to access this page!", null)
+        }else{
+            result(null, res)
         }
     });
 };
@@ -169,11 +202,14 @@ Board.remove = function(id, result){
 const Note = function(note){
     this.name = note.name;
     this.board_id = note.board_id;
-    this.done = note.done;
+    // this.done = note.done;
 };
 
-Note.getAllNote = function getAllNote(result) {
-    sql.query("Select * from NOTE", function (err, res) {
+
+
+Note.getAllNote = function getAllNote(boardId, token, result) {
+
+    sql.query("Select * from NOTE WHERE board_id = ?", [boardId], function (err, res) {
 
         if(err) {
             result(null, err);
@@ -182,10 +218,11 @@ Note.getAllNote = function getAllNote(result) {
             result(null, res);
         }
     });
+
 };
 
-Note.getNoteById = function getNote(noteId, result) {
-    sql.query("Select name from NOTE where id = ? ", noteId, function (err, res) {
+Note.getNoteById = function getNote(noteBoard, result) {
+    sql.query("Select name from NOTE where id = ? and board_id = ?", [noteBoard.noteId, noteBoard.boardId], function (err, res) {
         if(err) {
             result(err, null);
         }
@@ -208,8 +245,8 @@ Note.createNote = function createNote(newNote, result) {
     });
 };
 
-Note.updateById = function(id, note, result){
-    sql.query("UPDATE NOTE SET name = ?, board_id = ?, done = ? WHERE id = ?", [note.name, note.board_id, note.done, id], function (err, res) {
+Note.updateById = function(note, name, result){
+    sql.query("UPDATE NOTE SET name = ? WHERE board_id = ? and id = ?", [name, note.boardId, note.noteId], function (err, res) {
         if(err) {
             result(null, err);
         }
@@ -219,8 +256,8 @@ Note.updateById = function(id, note, result){
     });
 };
 
-Note.remove = function(id, result){
-    sql.query("DELETE FROM NOTE WHERE id = ?", [id], function (err, res) {
+Note.remove = function(note, result){
+    sql.query("DELETE FROM NOTE WHERE id = ? and board_id = ?", [note.noteId, note.boardId], function (err, res) {
 
         if(err) {
             result(null, err);

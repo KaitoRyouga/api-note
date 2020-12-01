@@ -34,85 +34,90 @@ exports.check_user = function(req, res) {
 
 exports.create_a_user = function(req, res) {
     var new_user = new Task.User(req.body);
-    console.log(new_user);
 
     //handles null error
     if(!new_user.username){
-
         res.status(400).send({ error:true, message: 'Please provide Username' });
-
     }
     else{
-        Task.User.createUser(new_user, function(err, user) {
+        Task.User.createUser(new_user, res, function(err, user) {
 
             if (err)
                 res.send(err);
-            res.json(user);
+            res.json({message: 'Create user successfully'});
         });
     }
 };
 
-exports.read_a_user = function(req, res) {
-    Task.User.getUserById(req.params.userId, function(err, user) {
+exports.read_a_user = function(userId, fun, res) {
+
+    Task.User.getUserById(userId, fun, function(err, user) {
         if (err)
-            res.send(err);
-        res.json(user);
+            res(err, user);
+        else
+            res(null, user)
     });
 };
 
-exports.update_a_user = function(req, res) {
-    Task.User.updateById(req.params.userId, new Task.User(req.body), function(err, user) {
+exports.update_a_user = function(req, pass, res) {
+    Task.User.updateById(req, pass, function(err, user) {
         if (err)
-            res.send(err);
-        res.json(user);
+            res(err);
+        else
+            res(user);
     });
 };
 
 
-exports.delete_a_user = function(req, res) {
+exports.delete_a_user = function(req, fun, res) {
 
-    Task.User.remove( req.params.userId, function(err, user) {
-        if (err)
-            res.send(err);
-        res.json({ message: 'User successfully deleted' });
+    Task.User.remove( req.id, function(err, user) {
+        try {
+            res(null, user);
+        } catch (error) {
+			return fun
+			.status(404)
+			.send('Error!');
+        }
     });
 };
 
 // ###############################################################################################
 
-exports.list_all_board = function(req, res) {
-    Task.Board.getAllBoard(function(err, board) {
-
-        if (err)
-            res.send(err);
-        res.send(board);
+exports.list_all_board = function(req, fun, res) {
+    Task.Board.getAllBoard(req, fun, function(err, boards) {
+        try {
+            res(null, boards);
+        } catch (error) {
+			return fun
+			.status(404)
+			.send('Error!');
+        }
     });
 };
 
 exports.create_a_board = function(req, res) {
-    var new_board = new Task.Board(req.body);
-    console.log(new_board)
-    console.log(req.body)
-    console.log(new Task.Board(req.body))
 
-    //handles null error
+    const new_board = {
+        "name": req.body.name,
+        "user_id": res.token.id,
+    }
+
+    // //handles null error
     if(!new_board.name){
-
         res.status(400).send({ error:true, message: 'Please provide Name' });
-
     }
     else{
         Task.Board.createBoard(new_board, function(err, board) {
-
             if (err)
                 res.send(err);
-            res.json(board);
+            res.json({message: 'Create board successfully'});
         });
     }
 };
 
 exports.read_a_board = function(req, res) {
-    Task.Board.getBoardById(req.params.boardId, function(err, board) {
+    Task.Board.getBoardById(req.params.boardId, res.token.id, function(err, board) {
         if (err)
             res.send(err);
         res.json(board);
@@ -120,56 +125,75 @@ exports.read_a_board = function(req, res) {
 };
 
 exports.update_a_board = function(req, res) {
-    Task.Board.updateById(req.params.boardId, new Task.Board(req.body), function(err, board) {
+
+    const new_board = {
+        "name": req.body.name,
+        "user_id": res.token.id,
+    }
+
+    Task.Board.updateById(req.params.boardId, new_board, function(err, board) {
         if (err)
             res.send(err);
-        res.json(board);
+        res.json({ message: 'Name board successfully change' });
     });
 };
 
 
 exports.delete_a_board = function(req, res) {
 
-
-    Task.Board.remove( req.params.boardId, function(err, board) {
+    Task.Board.remove( req.params.boardId, res.token, function(err, board) {
         if (err)
             res.send(err);
         res.json({ message: 'Board successfully deleted' });
     });
 };
 
+exports.check_board = function(req, res, next) {
+
+    Task.Board.checkBoard( req.params.boardId, res.token, function(err, boards) {
+        if (boards == null)
+            res.send(err);
+        else
+            next(null, boards)
+
+    });
+};
+
 // ###############################################################################################
 
 exports.list_all_note = function(req, res) {
-    Task.Note.getAllNote(function(err, note) {
+
+    Task.Note.getAllNote(req.params.boardId, res.token, function(err, note) {
 
         if (err)
             res.send(err);
-        res.send(note);
+        else
+            res.send(note);
     });
 };
 
 exports.create_a_note = function(req, res) {
-    var new_note = new Task.Note(req.body);
+
+    const newNote = {
+        "name": req.body.name,
+        "board_id": req.params.boardId,
+    }
 
     //handles null error
-    if(!new_note.name){
-
+    if(!req.body.name){
         res.status(400).send({ error:true, message: 'Please provide Name' });
-
     }
     else{
-        Task.Note.createNote(new_note, function(err, note) {
-
+        Task.Note.createNote(newNote, function(err, note) {
             if (err)
                 res.send(err);
-            res.json(note);
+            res.json({message: 'Create note successfully'});
         });
     }
 };
 
 exports.read_a_note = function(req, res) {
-    Task.Note.getNoteById(req.params.noteId, function(err, note) {
+    Task.Note.getNoteById(req.params, function(err, note) {
         if (err)
             res.send(err);
         res.json(note);
@@ -177,18 +201,19 @@ exports.read_a_note = function(req, res) {
 };
 
 exports.update_a_note = function(req, res) {
-    Task.Note.updateById(req.params.noteId, new Task.Note(req.body), function(err, note) {
+
+    Task.Note.updateById(req.params, req.body.name, function(err, note) {
         if (err)
             res.send(err);
-        res.json(note);
+        else
+            res.json({ message: 'Name note successfully change' });
     });
 };
 
 
 exports.delete_a_note = function(req, res) {
 
-
-    Task.Note.remove( req.params.noteId, function(err, note) {
+    Task.Note.remove( req.params, function(err, note) {
         if (err)
             res.send(err);
         res.json({ message: 'Note successfully deleted' });
