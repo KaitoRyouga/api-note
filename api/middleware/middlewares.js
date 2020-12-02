@@ -13,7 +13,7 @@ exports.checkAuth = async (req, res, next) => {
 	const accessTokenFromHeader = req.headers.authorization;
 
 	if (!accessTokenFromHeader) {
-		return res.status(401).send('Not found access token!');
+		return res.status(401).json({message: 'Not found access token!'});
 	}
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
@@ -26,7 +26,7 @@ exports.checkAuth = async (req, res, next) => {
 	if (!verified) {
 		return res
 			.status(401)
-			.send('You are not authorized to access this page!');
+			.json({message: 'You are not authorized to access this page!'});
 	}
 	// return verified;
 	res.token = verified.payload
@@ -41,7 +41,7 @@ exports.isAuth = async (req, res, next) => {
 	const accessTokenFromHeader = req.headers.authorization;
 
 	if (!accessTokenFromHeader) {
-		return res.status(401).send('Not found access token!');
+		return res.status(401).json({message: 'Not found access token!'});
 	}
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
@@ -128,7 +128,7 @@ exports.isAuthUser = async (req, res, next) => {
 	if (!verified) {
 		return res
 			.status(401)
-			.send('You are not authorized to access this page!');
+			.json({message: 'You are not authorized to access this page!'});
 	}
 	NoteAPI.update_a_user(verified.payload, req.body.password, function(err, result) {
 		return res.json({message: "Change password successfully"})
@@ -141,7 +141,7 @@ exports.isAuthUserDelete = async (req, res, next) => {
 	const accessTokenFromHeader = req.headers.authorization;
 
 	if (!accessTokenFromHeader) {
-		return res.status(401).send('Not found access token!');
+		return res.status(401).json({message: 'Not found access token!'});
 	}
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
@@ -154,7 +154,7 @@ exports.isAuthUserDelete = async (req, res, next) => {
 	if (!verified) {
 		return res
 			.status(401)
-			.send('You are not authorized to access this page!');
+			.json({message: 'You are not authorized to access this page!'});
 	}
 
 	NoteAPI.delete_a_user(verified.payload, res, function(err, result) {
@@ -165,7 +165,7 @@ exports.isAuthUserDelete = async (req, res, next) => {
 exports.isAuthCheckBoard = async (req, res, next) => {
 	NoteAPI.check_board(req, res, function(err, result) {
         if (result == null) {
-			res.send(err);
+			res.json({message: err})
 		}
 		else
 			next()
