@@ -6,22 +6,6 @@ const login = authMiddleware.login;
 
 // ###############################################################################################
 
-// exports.list_all_users = function(req, res) {
-//     Task.User.getAllUser(function(err, user) {
-//         if (err)
-//             res.send(err);
-//         res.send(user);
-//     });
-// };
-
-// exports.list_user = function(req, res) {
-//     Task.User.getUserByUsername(req.user, function(err, user) {
-//         if (err)
-//             res.send(err);
-//         res.send(user);
-//     });
-// };
-
 exports.check_user = function(req, res) {
     const userLogin = req.body;
     Task.User.checkLogin(userLogin, function(err, user) {

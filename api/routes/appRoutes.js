@@ -13,8 +13,8 @@ module.exports = function(app) {
     app.route('/user')
         .get(isAuth)
         .post(NoteAPI.create_a_user)
-        .put(isAuthUser)
-        .delete(isAuthUserDelete);
+        // .put(isAuthUser)
+        // .delete(isAuthUserDelete);
 
     app.route('/user/put')
         .get(isAuthUser)
@@ -29,8 +29,8 @@ module.exports = function(app) {
 
     app.route('/board/:boardId')
         .get(checkAuth, NoteAPI.read_a_board)
-        .put(checkAuth, NoteAPI.update_a_board)
-        .delete(checkAuth, NoteAPI.delete_a_board);
+        // .put(checkAuth, NoteAPI.update_a_board)
+        // .delete(checkAuth, NoteAPI.delete_a_board);
 
     app.route('/board/:boardId/put')
         .get(checkAuth, NoteAPI.update_a_board)
@@ -45,8 +45,8 @@ module.exports = function(app) {
 
     app.route('/notes/:boardId/:noteId')
         .get(checkAuth, isAuthCheckBoard, NoteAPI.read_a_note)
-        .put(checkAuth, isAuthCheckBoard, NoteAPI.update_a_note)
-        .delete(checkAuth, isAuthCheckBoard, NoteAPI.delete_a_note);
+        // .put(checkAuth, isAuthCheckBoard, NoteAPI.update_a_note)
+        // .delete(checkAuth, isAuthCheckBoard, NoteAPI.delete_a_note);
         
     app.route('/notes/:boardId/:noteId/put')
         .get(checkAuth, isAuthCheckBoard, NoteAPI.update_a_note)

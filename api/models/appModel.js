@@ -45,7 +45,7 @@ User.checkLogin = async function getUser(userTrans, result) {
             const isPasswordMatch = await bcrypt.compare(passLog, res[0].password)
     
             const resultUser = {
-                username: user.username,
+                username: userTrans.username,
                 id: res[0].id
             }
     
