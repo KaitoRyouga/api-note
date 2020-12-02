@@ -35,6 +35,7 @@ exports.check_user = function(req, res) {
 
 exports.create_a_user = function(req, res) {
     var new_user = new Task.User(req.body);
+    console.log(new_user)
 
     //handles null error
     if(!new_user.username){
@@ -43,10 +44,10 @@ exports.create_a_user = function(req, res) {
     else{
         Task.User.createUser(new_user, res, function(err, userid, username ) {
 
-            const new_user = {
-                "username": username,
-                "id": userid
-            }
+            // const new_user = {
+            //     "username": username,
+            //     "id": userid
+            // }
 
             if (err)
                 res.json({Error: err});
