@@ -103,7 +103,15 @@ exports.isAuthBoards = async (req, res, next) => {
 	}
 
 	NoteAPI.list_all_board(verified.payload.id, res, function(err, result) {
-		return res.json(result)
+		const Re = [];
+		result.map(r => Re.push(r))
+		try {
+			const arrayToString = JSON.stringify(Object.assign({}, Re));
+			const stringToJsonObject = JSON.parse(arrayToString);
+			return res.json(stringToJsonObject)
+		} catch (error) {
+			return res.json({Error: error})
+		}
 	})	
 };
 
