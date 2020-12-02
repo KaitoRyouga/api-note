@@ -4,9 +4,9 @@
   "description": "api for todoapp",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start server.production.js",
+    "start": "node server.production.js",
     "build": "webpack",
-    "dev": "pm2 start server.js --name devNote --watch"
+    "dev": "node server.js"
   },
   "author": "kaito",
   "license": "ISC",
