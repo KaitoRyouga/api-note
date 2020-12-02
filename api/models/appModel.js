@@ -28,29 +28,39 @@ User.getUserById = function getUser(userId, fun, result) {
         } catch (error) {
 			return fun
 			.status(404)
-			.send('Not found!');
+            .json({message: 'Not found!'});
+            
         }
     });
 };
 
-User.checkLogin = function getUser(user, result) {
-    sql.query("Select password, id from USER_NOTE where username = ? ", user.username, async function (err, res) {
-        const isPasswordMatch = await bcrypt.compare(user.password, res[0].password)
+User.checkLogin = async function getUser(userTrans, result) {
+    // console.log(user)
 
-        const resultUser = {
-            username: user.username,
-            id: res[0].id
-        }
+    try {
+        sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, async function (err, res) {
 
-        if(err) {
-            result(err, null);
-        }
-        else if (isPasswordMatch){
-            result(null, resultUser);
-        }else{
-            result('Wrong password!', null);
-        }
-    });
+            const passLog = userTrans.password
+    
+            const isPasswordMatch = await bcrypt.compare(passLog, res[0].password)
+    
+            const resultUser = {
+                username: user.username,
+                id: res[0].id
+            }
+    
+            if(err) {
+                result(err, null);
+            }
+            else if (isPasswordMatch){
+                result(null, resultUser);
+            }else{
+                result('Wrong password!', null);
+            }
+        });        
+    } catch (error) {
+        result("Error", null);
+    }
 };
 
 User.getUserByUsername = function getUser(username, result) {
@@ -69,13 +79,12 @@ User.createUser = async function createUser(newUser, fun, result) {
     newUser.password = await bcrypt.hash(newUser.password, 8);
 
     sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
-
         try {
             result(null, res.insertId, newUser.username);
         } catch (error) {
 			return fun
 			.status(404)
-			.send('Add user error: user already exists!');
+			.json({message: 'Add user error: user already exists!'});
         }
     });
 };
@@ -120,7 +129,7 @@ Board.getAllBoard = function getAllBoard(user_id, fun, result) {
         } catch (error) {
 			return fun
 			.status(404)
-			.send('Not found Boards!');
+            .json({message: 'Not found Boards!'});
         }
     });
 };
@@ -140,7 +149,7 @@ Board.createBoard = function createBoard(newBoard, result) {
     sql.query("INSERT INTO BOARD set ?", newBoard, function (err, res) {
 
         if(err) {
-            console.log("error: ", err);
+            // console.log("error: ", err);
             result(err, null);
         }
         else{

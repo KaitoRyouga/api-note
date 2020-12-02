@@ -35,7 +35,7 @@ exports.checkAuth = async (req, res, next) => {
 
 exports.isAuth = async (req, res, next) => {
 
-	console.log(req)
+	// console.log(req)
 
 	// get access token from header
 	const accessTokenFromHeader = req.headers.authorization;
@@ -54,7 +54,7 @@ exports.isAuth = async (req, res, next) => {
 	if (!verified) {
 		return res
 			.status(401)
-			.send('You are not authorized to access this page!');
+			.json({message: 'You are not authorized to access this page!'});
 	}
 
 	NoteAPI.read_a_user(verified.payload.id, res, function(err, result) {
@@ -63,13 +63,13 @@ exports.isAuth = async (req, res, next) => {
 		}else {
 			return res
 			.status(401)
-			.send('You are not authorized to access this page!');			
+			.json({message: 'You are not authorized to access this page!'});			
 		}
 	})
 };
 
 exports.login = async (req, res) => {
-	console.log(req);
+	// console.log(req);
     const accessToken = await authMethod.generateToken(
 		req,
         process.env.ACCESSTOKENSECRET,
@@ -77,7 +77,7 @@ exports.login = async (req, res) => {
     if (!accessToken) {
         return res
             .status(401)
-            .send('Login failed, please try again.');
+			.json({message: 'Login failed, please try again.'});
 	}
 	res.json({"token": accessToken})
 };
@@ -88,7 +88,7 @@ exports.isAuthBoards = async (req, res, next) => {
 	const accessTokenFromHeader = req.headers.authorization;
 
 	if (!accessTokenFromHeader) {
-		return res.status(401).send('Not found access token!');
+		return res.status(401).json({message: 'Not found access token!'});
 	}
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
@@ -101,7 +101,7 @@ exports.isAuthBoards = async (req, res, next) => {
 	if (!verified) {
 		return res
 			.status(401)
-			.send('You are not authorized to access this page!');
+			.json({message: 'You are not authorized to access this page!'});
 	}
 
 	NoteAPI.list_all_board(verified.payload.id, res, function(err, result) {
@@ -115,7 +115,7 @@ exports.isAuthUser = async (req, res, next) => {
 	const accessTokenFromHeader = req.headers.authorization;
 
 	if (!accessTokenFromHeader) {
-		return res.status(401).send('Not found access token!');
+		return res.status(401).json({message: 'Not found access token!'});
 	}
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;

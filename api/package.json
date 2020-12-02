@@ -4,9 +4,9 @@
   "description": "api for todoapp",
   "main": "index.js",
   "scripts": {
-    "start": "node server.production.js",
+    "start": "pm2 start server.production.js",
     "build": "webpack",
-    "dev": "nodemon server.js"
+    "dev": "pm2 start server.js --name devNote --watch"
   },
   "author": "kaito",
   "license": "ISC",
@@ -16,7 +16,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "pm2": "^4.5.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

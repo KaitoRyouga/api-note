@@ -6,27 +6,27 @@ const login = authMiddleware.login;
 
 // ###############################################################################################
 
-exports.list_all_users = function(req, res) {
-    Task.User.getAllUser(function(err, user) {
-        if (err)
-            res.send(err);
-        res.send(user);
-    });
-};
+// exports.list_all_users = function(req, res) {
+//     Task.User.getAllUser(function(err, user) {
+//         if (err)
+//             res.send(err);
+//         res.send(user);
+//     });
+// };
 
-exports.list_user = function(req, res) {
-    Task.User.getUserByUsername(req.user, function(err, user) {
-        if (err)
-            res.send(err);
-        res.send(user);
-    });
-};
+// exports.list_user = function(req, res) {
+//     Task.User.getUserByUsername(req.user, function(err, user) {
+//         if (err)
+//             res.send(err);
+//         res.send(user);
+//     });
+// };
 
 exports.check_user = function(req, res) {
     const userLogin = req.body;
     Task.User.checkLogin(userLogin, function(err, user) {
         if (err)
-            res.send(err);
+            res.json({Error: err});
         else
             login(user, res);
             // console.log(user)
@@ -38,7 +38,7 @@ exports.create_a_user = function(req, res) {
 
     //handles null error
     if(!new_user.username){
-        res.status(400).send({ error:true, message: 'Please provide Username' });
+        res.status(400).send({ message: 'Please provide Username' });
     }
     else{
         Task.User.createUser(new_user, res, function(err, userid, username ) {
@@ -49,7 +49,7 @@ exports.create_a_user = function(req, res) {
             }
 
             if (err)
-                res.send(err);
+                res.json({Error: err});
             else {
                 login(new_user, res)
             }
@@ -85,7 +85,7 @@ exports.delete_a_user = function(req, fun, res) {
         } catch (error) {
 			return fun
 			.status(404)
-			.send('Error!');
+			.json({Error: err});
         }
     });
 };
@@ -99,7 +99,7 @@ exports.list_all_board = function(req, fun, res) {
         } catch (error) {
 			return fun
 			.status(404)
-			.send('Error!');
+			.json({Error: err});
         }
     });
 };
@@ -113,12 +113,12 @@ exports.create_a_board = function(req, res) {
 
     // //handles null error
     if(!new_board.name){
-        res.status(400).send({ error:true, message: 'Please provide Name' });
+        res.status(400).send({ message: 'Please provide Name' });
     }
     else{
         Task.Board.createBoard(new_board, function(err, board) {
             if (err)
-                res.send(err);
+                res.json({Error: err});
             res.json({message: 'Create board successfully'});
         });
     }
@@ -127,7 +127,7 @@ exports.create_a_board = function(req, res) {
 exports.read_a_board = function(req, res) {
     Task.Board.getBoardById(req.params.boardId, res.token.id, function(err, board) {
         if (err)
-            res.send(err);
+            res.json({Error: err});
         res.json(board);
     });
 };
@@ -141,7 +141,7 @@ exports.update_a_board = function(req, res) {
 
     Task.Board.updateById(req.params.boardId, new_board, function(err, board) {
         if (err)
-            res.send(err);
+            res.json({Error: err});
         res.json({ message: 'Name board successfully change' });
     });
 };
@@ -151,7 +151,7 @@ exports.delete_a_board = function(req, res) {
 
     Task.Board.remove( req.params.boardId, res.token, function(err, board) {
         if (err)
-            res.send(err);
+            res.json({Error: err});
         res.json({ message: 'Board successfully deleted' });
     });
 };
@@ -160,7 +160,7 @@ exports.check_board = function(req, res, next) {
 
     Task.Board.checkBoard( req.params.boardId, res.token, function(err, boards) {
         if (boards == null)
-            res.send(err);
+            res.json({Error: err});
         else
             next(null, boards)
 
@@ -174,9 +174,9 @@ exports.list_all_note = function(req, res) {
     Task.Note.getAllNote(req.params.boardId, res.token, function(err, note) {
 
         if (err)
-            res.send(err);
+            res.json({Error: err});
         else
-            res.send(note);
+            res.json(note);
     });
 };
 
@@ -189,12 +189,12 @@ exports.create_a_note = function(req, res) {
 
     //handles null error
     if(!req.body.name){
-        res.status(400).send({ error:true, message: 'Please provide Name' });
+        res.status(400).send({message: 'Please provide Name' });
     }
     else{
         Task.Note.createNote(newNote, function(err, note) {
             if (err)
-                res.send(err);
+                res.json({Error: err});
             res.json({message: 'Create note successfully'});
         });
     }
@@ -203,7 +203,7 @@ exports.create_a_note = function(req, res) {
 exports.read_a_note = function(req, res) {
     Task.Note.getNoteById(req.params, function(err, note) {
         if (err)
-            res.send(err);
+            res.json({Error: err});
         res.json(note);
     });
 };
@@ -212,7 +212,7 @@ exports.update_a_note = function(req, res) {
 
     Task.Note.updateById(req.params, req.body.name, function(err, note) {
         if (err)
-            res.send(err);
+            res.json({Error: err});
         else
             res.json({ message: 'Name note successfully change' });
     });
@@ -223,7 +223,7 @@ exports.delete_a_note = function(req, res) {
 
     Task.Note.remove( req.params, function(err, note) {
         if (err)
-            res.send(err);
+            res.json({Error: err});
         res.json({ message: 'Note successfully deleted' });
     });
 };
