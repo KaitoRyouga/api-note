@@ -253,7 +253,7 @@ Note.getAllNote = function getAllNote(boardId, token, result) {
 };
 
 Note.getNoteById = function getNote(noteBoard, result) {
-    sql.query("Select name from NOTE where id = ? and board_id = ?", [noteBoard.noteId, noteBoard.boardId], function (err, res) {
+    sql.query("Select * from NOTE where id = ? and board_id = ?", [noteBoard.noteId, noteBoard.boardId], function (err, res) {
         if(err) {
             result(err, null);
         }
