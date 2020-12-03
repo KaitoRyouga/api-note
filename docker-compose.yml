@@ -9,4 +9,4 @@ services:
     volumes: 
       - C:\Users\kaito\Documents\Project\api-note\api:/usr/src/app/api
     ports:
-      - '9090:9090'
+      - '80:80'

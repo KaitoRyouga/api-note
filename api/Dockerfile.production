@@ -15,16 +15,16 @@
 
 ## dev enviroment
 # FROM docker.pkg.github.com/kaitoryouga/todo/core_api:latest
-# FROM node:12.2.0-alpine
-FROM keymetrics/pm2:latest-alpine
+FROM node:12.2.0-alpine
+# FROM keymetrics/pm2:latest-alpine
 WORKDIR /usr/src/app/api
 COPY ./package.json ./
-RUN yarn
+RUN yarn && yarn add -g pm2
 COPY ./ ./
 # RUN rm -Rf ./code && mkdir code
 # COPY ./code ./code
 RUN chmod +x ./node_modules/.bin/pm2
 EXPOSE 80
 # CMD [ "yarn", "start" ]
-CMD ["pm2-runtime", "server.js"]
+CMD ["pm2-runtime", "start", "server.js"]
 
