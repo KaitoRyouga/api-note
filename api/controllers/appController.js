@@ -127,7 +127,7 @@ exports.update_a_board = function(req, res) {
     Task.Board.updateById(req.params.boardId, new_board, function(err, board) {
         if (err)
             res.json({Error: err});
-        res.json({ message: 'Name board successfully change' });
+        res.json({});
     });
 };
 
@@ -137,7 +137,7 @@ exports.delete_a_board = function(req, res) {
     Task.Board.remove( req.params.boardId, res.token, function(err, board) {
         if (err)
             res.json({Error: err});
-        res.json({ message: 'Board successfully deleted' });
+        res.json({});
     });
 };
 
@@ -206,7 +206,7 @@ exports.update_a_note = function(req, res) {
         if (err)
             res.json({Error: err});
         else
-            res.json({ message: 'Name note successfully change' });
+            res.json({});
     });
 };
 
@@ -216,6 +216,6 @@ exports.delete_a_note = function(req, res) {
     Task.Note.remove( req.params, function(err, note) {
         if (err)
             res.json({Error: err});
-        res.json({ message: 'Note successfully deleted' });
+        res.json({});
     });
 };

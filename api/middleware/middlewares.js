@@ -137,7 +137,7 @@ exports.isAuthUser = async (req, res, next) => {
 			.json({message: 'You are not authorized to access this page!'});
 	}
 	NoteAPI.update_a_user(verified.payload, req.body.password, function(err, result) {
-		return res.json({message: "Change password successfully"})
+		return res.json({})
 	})	
 };
 
@@ -164,7 +164,7 @@ exports.isAuthUserDelete = async (req, res, next) => {
 	}
 
 	NoteAPI.delete_a_user(verified.payload, res, function(err, result) {
-		res.json({ message: 'User successfully deleted' });
+		res.json({});
 	})	
 };
 
