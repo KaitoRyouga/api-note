@@ -28,15 +28,15 @@ module.exports = function(app) {
         .post(checkAuth, NoteAPI.create_a_board);
 
     app.route('/board/:boardId')
-        .get(checkAuth, NoteAPI.read_a_board)
+        .get(checkAuth, isAuthCheckBoard, NoteAPI.read_a_board)
         // .put(checkAuth, NoteAPI.update_a_board)
         // .delete(checkAuth, NoteAPI.delete_a_board);
 
     app.route('/board/:boardId/put')
-        .get(checkAuth, NoteAPI.update_a_board)
+        .get(checkAuth, isAuthCheckBoard, NoteAPI.update_a_board)
 
     app.route('/board/:boardId/delete')
-        .get(checkAuth, NoteAPI.delete_a_board);
+        .get(checkAuth, isAuthCheckBoard, NoteAPI.delete_a_board);
 
     // Note Routes
     app.route('/notes/:boardId')

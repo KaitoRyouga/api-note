@@ -171,7 +171,7 @@ exports.isAuthUserDelete = async (req, res, next) => {
 exports.isAuthCheckBoard = async (req, res, next) => {
 	NoteAPI.check_board(req, res, function(err, result) {
         if (result == null) {
-			res.json({message: err})
+			res.json({message: err})			
 		}
 		else
 			next()
