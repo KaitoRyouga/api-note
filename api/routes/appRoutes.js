@@ -17,7 +17,7 @@ module.exports = function(app) {
         // .delete(isAuthUserDelete);
 
     app.route('/user/put')
-        .get(isAuthUser)
+        .post(isAuthUser)
 
     app.route('/user/delete')
         .get(isAuthUserDelete)
@@ -33,7 +33,7 @@ module.exports = function(app) {
         // .delete(checkAuth, NoteAPI.delete_a_board);
 
     app.route('/board/:boardId/put')
-        .get(checkAuth, isAuthCheckBoard, NoteAPI.update_a_board)
+        .post(checkAuth, isAuthCheckBoard, NoteAPI.update_a_board)
 
     app.route('/board/:boardId/delete')
         .get(checkAuth, isAuthCheckBoard, NoteAPI.delete_a_board);
@@ -49,7 +49,7 @@ module.exports = function(app) {
         // .delete(checkAuth, isAuthCheckBoard, NoteAPI.delete_a_note);
         
     app.route('/notes/:boardId/:noteId/put')
-        .get(checkAuth, isAuthCheckBoard, NoteAPI.update_a_note)
+        .post(checkAuth, isAuthCheckBoard, NoteAPI.update_a_note)
 
     app.route('/notes/:boardId/:noteId/delete')
         .get(checkAuth, isAuthCheckBoard, NoteAPI.delete_a_note);
