@@ -27,5 +27,5 @@ RUN yarn global add pm2
 # RUN chmod +x ./node_modules/.bin/pm2
 EXPOSE 80
 # CMD [ "yarn", "start" ]
-CMD ["pm2-runtime", "start", "server.js"]
+CMD ["pm2-runtime", "start", "server.production.js"]
 
