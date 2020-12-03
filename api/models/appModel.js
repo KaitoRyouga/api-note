@@ -153,7 +153,17 @@ Board.createBoard = function createBoard(newBoard, result) {
             result(err, null);
         }
         else{
-            result(null, res.insertId);
+            sql.query("SELECT * FROM BOARD WHERE id = ?",  res.insertId, function (err2, res2) {
+
+                if(err2) {
+                    // console.log("error: ", err);
+                    result(err2, null);
+                }
+                else{
+                    result(null, res2);
+                }
+            });
+            // result(null, res.insertId);
         }
     });
 };
@@ -243,13 +253,25 @@ Note.getNoteById = function getNote(noteBoard, result) {
 };
 
 Note.createNote = function createNote(newNote, result) {
+
     sql.query("INSERT INTO NOTE set ?", newNote, function (err, res) {
 
         if(err) {
+            // console.log("error: ", err);
             result(err, null);
         }
         else{
-            result(null, res.insertId);
+            sql.query("SELECT * FROM NOTE WHERE id = ?",  res.insertId, function (err2, res2) {
+
+                if(err2) {
+                    // console.log("error: ", err);
+                    result(err2, null);
+                }
+                else{
+                    result(null, res2);
+                }
+            });
+            // result(null, res.insertId);
         }
     });
 };

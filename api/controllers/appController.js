@@ -104,8 +104,7 @@ exports.create_a_board = function(req, res) {
         Task.Board.createBoard(new_board, function(err, board) {
             if (err)
                 res.json({Error: err});
-            res.json({id: board});
-            // console.log(board)
+            res.json(board[0]);
         });
     }
 };
@@ -114,7 +113,7 @@ exports.read_a_board = function(req, res) {
     Task.Board.getBoardById(req.params.boardId, res.token.id, function(err, board) {
         if (err)
             res.json({Error: err});
-        res.json(board);
+        res.json(board[0]);
     });
 };
 
@@ -187,7 +186,8 @@ exports.create_a_note = function(req, res) {
             if (err)
                 res.json({Error: err});
             // res.json({message: 'Create note successfully'});
-            res.json({id: note});
+            // res.json({id: note});
+            res.json(note[0]);
         });
     }
 };
@@ -196,7 +196,7 @@ exports.read_a_note = function(req, res) {
     Task.Note.getNoteById(req.params, function(err, note) {
         if (err)
             res.json({Error: err});
-        res.json(note);
+        res.json(note[0]);
     });
 };
 
