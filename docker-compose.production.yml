@@ -7,6 +7,6 @@ services:
       context: ./api
       dockerfile: Dockerfile.production 
     volumes: 
-      - /api-note/api:/usr/src/app/api
+      - /home/kmactfweb/api-note/api:/usr/src/app/api
     ports:
       - '80:80'
