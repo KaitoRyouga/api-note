@@ -42,7 +42,8 @@ EX: authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7
 > `http://api.kaito.ninja/boards`
 ```json
 {
-   "name": "Học tập của Tiến"
+   "name": "Học tập của Tiến",
+   "color": "42f5b3"
 }
 ```
 
@@ -52,7 +53,8 @@ EX: authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7
 > `http://api.kaito.ninja/notes/6`
 ```json
 {
-   "name": "Docker"
+   "name": "Docker",
+   "color": "42f5b3"
 }
 ```
 
@@ -69,19 +71,36 @@ EX: authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7
 }
 ```
 ---
-> `http://api.kaito.ninja/boards/7/put`
+- Update name board
+> `http://api.kaito.ninja/board/7/put`
 ```json
 {
    "name": "Học tập xyz"
 }
 ```
+---
+- Update color board
+> `http://api.kaito.ninja/board/7/color/put`
+```json
+{
+   "color": "42f5b3"
+}
+```
 
 ---
-
-> `http://api.kaito.ninja/notes/6/put`
+- Update name note
+> `http://api.kaito.ninja/notes/6/6/put`
 ```json
 {
    "name": "Docker Container",
+}
+```
+---
+- Update color note
+> `http://api.kaito.ninja/notes/6/6/color/put`
+```json
+{
+   "color": "42f5b3",
 }
 ```
 

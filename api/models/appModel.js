@@ -180,6 +180,18 @@ Board.updateById = function(id, board, result){
     });
 };
 
+Board.updateColorById = function(id, board, result){
+    // console.log(board)
+    sql.query("UPDATE BOARD SET color = ? WHERE id = ? and user_id = ?", [board.color, id, board.user_id], function (err, res) {
+        if(err) {
+            result(null, err);
+        }
+        else{
+            result(null, res);
+        }
+    });
+};
+
 Board.remove = function(id, token, result){
     sql.query("DELETE FROM BOARD WHERE id = ? and user_id = ?", [id, token.id], function (err, res) {
 
@@ -286,6 +298,18 @@ Note.updateById = function(note, name, result){
         }
     });
 };
+
+Note.updateColorById = function(note, color, result){
+    sql.query("UPDATE NOTE SET color = ? WHERE board_id = ? and id = ?", [color, note.boardId, note.noteId], function (err, res) {
+        if(err) {
+            result(null, err);
+        }
+        else{
+            result(null, res);
+        }
+    });
+};
+
 
 Note.remove = function(note, result){
     sql.query("DELETE FROM NOTE WHERE id = ? and board_id = ?", [note.noteId, note.boardId], function (err, res) {

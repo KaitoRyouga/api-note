@@ -31,6 +31,8 @@ module.exports = function(app) {
         .get(checkAuth, isAuthCheckBoard, NoteAPI.read_a_board)
         // .put(checkAuth, NoteAPI.update_a_board)
         // .delete(checkAuth, NoteAPI.delete_a_board);
+    app.route('/board/:boardId/color/put')
+        .get(checkAuth, isAuthCheckBoard, NoteAPI.update_color_board)
 
     app.route('/board/:boardId/put')
         .post(checkAuth, isAuthCheckBoard, NoteAPI.update_a_board)
@@ -50,6 +52,9 @@ module.exports = function(app) {
         
     app.route('/notes/:boardId/:noteId/put')
         .post(checkAuth, isAuthCheckBoard, NoteAPI.update_a_note)
+
+    app.route('/notes/:boardId/:noteId/color/put')
+        .post(checkAuth, isAuthCheckBoard, NoteAPI.update_color_note)
 
     app.route('/notes/:boardId/:noteId/delete')
         .get(checkAuth, isAuthCheckBoard, NoteAPI.delete_a_note);

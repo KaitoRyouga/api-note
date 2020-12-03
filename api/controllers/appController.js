@@ -131,6 +131,20 @@ exports.update_a_board = function(req, res) {
     });
 };
 
+exports.update_color_board = function(req, res) {
+
+    const new_board = {
+        "color": req.body.color,
+        "user_id": res.token.id,
+    }
+
+    Task.Board.updateColorById(req.params.boardId, new_board, function(err, board) {
+        if (err)
+            res.json({Error: err});
+        res.json({});
+    });
+};
+
 
 exports.delete_a_board = function(req, res) {
 
@@ -210,6 +224,15 @@ exports.update_a_note = function(req, res) {
     });
 };
 
+exports.update_color_note = function(req, res) {
+
+    Task.Note.updateColorById(req.params, req.body.color, function(err, note) {
+        if (err)
+            res.json({Error: err});
+        else
+            res.json({});
+    });
+};
 
 exports.delete_a_note = function(req, res) {
 
