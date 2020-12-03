@@ -24,5 +24,6 @@ COPY ./ ./
 # COPY ./code ./code
 RUN chmod +x ./node_modules/.bin/pm2
 EXPOSE 80
-CMD [ "yarn", "start" ]
+# CMD [ "yarn", "start" ]
+CMD ["pm2-runtime", "server.js"]
 
