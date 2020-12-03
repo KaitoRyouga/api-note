@@ -19,8 +19,9 @@ FROM node:12.2.0-alpine
 # FROM keymetrics/pm2:latest-alpine
 WORKDIR /usr/src/app/api
 COPY ./package.json ./
-RUN yarn && yarn add -g pm2
+RUN yarn
 COPY ./ ./
+RUN yarn global add pm2
 # RUN rm -Rf ./code && mkdir code
 # COPY ./code ./code
 RUN chmod +x ./node_modules/.bin/pm2
