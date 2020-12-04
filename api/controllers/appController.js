@@ -13,7 +13,6 @@ exports.check_user = function(req, res) {
             res.json({Error: err});
         else
             login(user, res);
-            // console.log(user)
     });
 };
 

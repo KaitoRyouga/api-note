@@ -11,7 +11,7 @@ module.exports = function(app) {
 
     // Users Routes
     app.route('/user')
-        .get(isAuth)
+        .get(checkAuth, isAuth)
         .post(NoteAPI.create_a_user)
         // .put(isAuthUser)
         // .delete(isAuthUserDelete);

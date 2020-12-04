@@ -35,33 +35,33 @@ User.getUserById = function getUser(userId, fun, result) {
 };
 
 User.checkLogin = function getUser(userTrans, result) {
-    // console.log(user)
 
     try {
-        sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, function (err, res) {
-
-            console.log(res)
-
-            const passLog = userTrans.password
-    
-            const isPasswordMatch = bcrypt.compare(passLog, res[0].password)
-    
-            const resultUser = {
-                username: userTrans.username,
-                id: res[0].id
-            }
-    
+        sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, async function (err, res) {
             if(err) {
                 result(err, null);
+            }else if (res.length == 0){
+                result('Wrong username/password !', null);
             }
-            else if (isPasswordMatch){
-                result(null, resultUser);
-            }else{
-                result('Wrong password!', null);
+            else{
+                const passLog = userTrans.password
+    
+                const isPasswordMatch = await bcrypt.compare(passLog, res[0].password)
+        
+                const resultUser = {
+                    username: userTrans.username,
+                    id: res[0].id
+                }
+
+                if(await isPasswordMatch){
+                    result(null, resultUser);
+                }else{
+                    result('Wrong username/password !', null);
+                }
             }
         });        
     } catch (error) {
-        result("Error", null);
+        result(error, null);
     }
 };
 
