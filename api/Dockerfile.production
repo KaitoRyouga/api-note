@@ -21,11 +21,11 @@ WORKDIR /usr/src/app/api
 COPY ./package.json ./
 RUN yarn
 COPY ./ ./
-RUN yarn global add pm2
+# RUN yarn global add pm2
 # RUN rm -Rf ./code && mkdir code
 # COPY ./code ./code
 # RUN chmod +x ./node_modules/.bin/pm2
 EXPOSE 80
-# CMD [ "yarn", "start" ]
-CMD ["pm2-runtime", "start", "server.production.js"]
+CMD [ "yarn", "start" ]
+# CMD ["pm2-runtime", "start", "server.production.js"]
 
