@@ -76,11 +76,11 @@ User.getUserByUsername = function getUser(username, result) {
     });
 };
 
-User.createUser = function createUser(newUser, fun, result) {
+User.createUser = async function createUser(newUser, fun, result) {
 
-    newUser.password = bcrypt.hash(newUser.password, 8);
+    newUser.password = await bcrypt.hash(newUser.password, 8);
 
-    sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
+    sql.query("INSERT INTO USER_NOTE set ?", await newUser, function (err, res) {
         console.log(err)
         try {
             result(null, res.insertId, newUser.username);
@@ -92,9 +92,9 @@ User.createUser = function createUser(newUser, fun, result) {
     });
 };
 
-User.updateById = function(user, newPass, result){
-    const Hashpass = bcrypt.hash(newPass, 8);
-    sql.query("UPDATE USER_NOTE SET username = ?, password = ? WHERE id = ?", [user.username, Hashpass, user.id], function (err, res) {
+User.updateById = async function(user, newPass, result){
+    const Hashpass = await bcrypt.hash(newPass, 8);
+    sql.query("UPDATE USER_NOTE SET username = ?, password = ? WHERE id = ?", [user.username, await Hashpass, user.id], function (err, res) {
         if(err) {
             result(null, err);
         }
