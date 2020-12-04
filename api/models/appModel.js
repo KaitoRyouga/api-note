@@ -28,7 +28,7 @@ User.getUserById = function getUser(userId, fun, result) {
         } catch (error) {
 			return fun
 			.status(404)
-            .json({message: 'Not found!'});
+            .json({message: err.sqlMessage});
             
         }
     });
@@ -39,6 +39,8 @@ User.checkLogin = async function getUser(userTrans, result) {
 
     try {
         sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, async function (err, res) {
+
+            console.log(res)
 
             const passLog = userTrans.password
     
@@ -79,12 +81,13 @@ User.createUser = async function createUser(newUser, fun, result) {
     newUser.password = await bcrypt.hash(newUser.password, 8);
 
     sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
+        console.log(err)
         try {
             result(null, res.insertId, newUser.username);
         } catch (error) {
 			return fun
 			.status(404)
-			.json({message: 'Add user error: user already exists!'});
+			.json({message: err.sqlMessage});
         }
     });
 };
@@ -129,7 +132,7 @@ Board.getAllBoard = function getAllBoard(user_id, fun, result) {
         } catch (error) {
 			return fun
 			.status(404)
-            .json({message: 'Not found Boards!'});
+            .json({message: err.sqlMessage});
         }
     });
 };
