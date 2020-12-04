@@ -54,7 +54,7 @@ User.checkLogin = async function getUser(userTrans, result) {
             if(err) {
                 result(err, null);
             }
-            else if (isPasswordMatch){
+            else if (await isPasswordMatch){
                 result(null, resultUser);
             }else{
                 result('Wrong password!', null);
