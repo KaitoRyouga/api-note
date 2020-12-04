@@ -17,14 +17,14 @@ module.exports = function(app) {
         // .delete(isAuthUserDelete);
 
     app.route('/user/put')
-        .post(isAuthUser)
+        .post(checkAuth, isAuthUser)
 
     app.route('/user/delete')
-        .get(isAuthUserDelete)
+        .get(checkAuth, isAuthUserDelete)
 
     // Board Routes
     app.route('/boards')
-        .get(isAuthBoards)
+        .get(checkAuth, isAuthBoards)
         .post(checkAuth, NoteAPI.create_a_board);
 
     app.route('/board/:boardId')

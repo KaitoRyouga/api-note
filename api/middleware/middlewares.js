@@ -62,6 +62,8 @@ exports.login = async (req, res) => {
 
 exports.isAuthBoards = (req, res, next) => {
 
+	console.log(res.token)
+
 	NoteAPI.list_all_board(res.token.id, res, function(err, result) {
 		const Re = [];
 		result.map(r => Re.push(r))
