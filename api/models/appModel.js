@@ -34,17 +34,17 @@ User.getUserById = function getUser(userId, fun, result) {
     });
 };
 
-User.checkLogin = async function getUser(userTrans, result) {
+User.checkLogin = function getUser(userTrans, result) {
     // console.log(user)
 
     try {
-        sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, async function (err, res) {
+        sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, function (err, res) {
 
             console.log(res)
 
             const passLog = userTrans.password
     
-            const isPasswordMatch = await bcrypt.compare(passLog, res[0].password)
+            const isPasswordMatch = bcrypt.compare(passLog, res[0].password)
     
             const resultUser = {
                 username: userTrans.username,
@@ -54,7 +54,7 @@ User.checkLogin = async function getUser(userTrans, result) {
             if(err) {
                 result(err, null);
             }
-            else if (await isPasswordMatch){
+            else if (isPasswordMatch){
                 result(null, resultUser);
             }else{
                 result('Wrong password!', null);
@@ -76,9 +76,9 @@ User.getUserByUsername = function getUser(username, result) {
     });
 };
 
-User.createUser = async function createUser(newUser, fun, result) {
+User.createUser = function createUser(newUser, fun, result) {
 
-    newUser.password = await bcrypt.hash(newUser.password, 8);
+    newUser.password = bcrypt.hash(newUser.password, 8);
 
     sql.query("INSERT INTO USER_NOTE set ?", newUser, function (err, res) {
         console.log(err)
@@ -92,8 +92,8 @@ User.createUser = async function createUser(newUser, fun, result) {
     });
 };
 
-User.updateById = async function(user, newPass, result){
-    const Hashpass = await bcrypt.hash(newPass, 8);
+User.updateById = function(user, newPass, result){
+    const Hashpass = bcrypt.hash(newPass, 8);
     sql.query("UPDATE USER_NOTE SET username = ?, password = ? WHERE id = ?", [user.username, Hashpass, user.id], function (err, res) {
         if(err) {
             result(null, err);

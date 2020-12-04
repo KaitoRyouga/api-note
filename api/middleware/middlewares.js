@@ -7,7 +7,7 @@ dotenv.config();
 const NoteAPI = require('../controllers/appController');
 const { Note } = require('../models/appModel');
 
-exports.checkAuth = async (req, res, next) => {
+exports.checkAuth = (req, res, next) => {
 
 	// get access token from header
 	const accessTokenFromHeader = req.headers.authorization;
@@ -18,7 +18,7 @@ exports.checkAuth = async (req, res, next) => {
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
 
-	const verified = await authMethod.verifyToken(
+	const verified = authMethod.verifyToken(
 		accessTokenFromHeader.replace('Bearer ', ''),
 		accessTokenSecret,
 	);
@@ -33,7 +33,7 @@ exports.checkAuth = async (req, res, next) => {
 	next()
 };
 
-exports.isAuth = async (req, res, next) => {
+exports.isAuth = (req, res, next) => {
 
 	// get access token from header
 	const accessTokenFromHeader = req.headers.authorization;
@@ -44,7 +44,7 @@ exports.isAuth = async (req, res, next) => {
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
 
-	const verified = await authMethod.verifyToken(
+	const verified = authMethod.verifyToken(
 		accessTokenFromHeader.replace('Bearer ', ''),
 		accessTokenSecret,
 	);
@@ -66,9 +66,9 @@ exports.isAuth = async (req, res, next) => {
 	})
 };
 
-exports.login = async (req, res) => {
+exports.login = (req, res) => {
 	// console.log(req);
-    const accessToken = await authMethod.generateToken(
+    const accessToken = authMethod.generateToken(
 		req,
         process.env.ACCESSTOKENSECRET,
     );
@@ -80,7 +80,7 @@ exports.login = async (req, res) => {
 	res.json({"token": accessToken})
 };
 
-exports.isAuthBoards = async (req, res, next) => {
+exports.isAuthBoards = (req, res, next) => {
 
 	// get access token from header
 	const accessTokenFromHeader = req.headers.authorization;
@@ -91,7 +91,7 @@ exports.isAuthBoards = async (req, res, next) => {
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
 
-	const verified = await authMethod.verifyToken(
+	const verified = authMethod.verifyToken(
 		accessTokenFromHeader.replace('Bearer ', ''),
 		accessTokenSecret,
 	);
@@ -115,7 +115,7 @@ exports.isAuthBoards = async (req, res, next) => {
 	})	
 };
 
-exports.isAuthUser = async (req, res, next) => {
+exports.isAuthUser = (req, res, next) => {
 
 	// get access token from header
 	const accessTokenFromHeader = req.headers.authorization;
@@ -126,7 +126,7 @@ exports.isAuthUser = async (req, res, next) => {
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
 
-	const verified = await authMethod.verifyToken(
+	const verified = authMethod.verifyToken(
 		accessTokenFromHeader.replace('Bearer ', ''),
 		accessTokenSecret
 	);
@@ -141,7 +141,7 @@ exports.isAuthUser = async (req, res, next) => {
 	})	
 };
 
-exports.isAuthUserDelete = async (req, res, next) => {
+exports.isAuthUserDelete = (req, res, next) => {
 
 	// get access token from header
 	const accessTokenFromHeader = req.headers.authorization;
@@ -152,7 +152,7 @@ exports.isAuthUserDelete = async (req, res, next) => {
 
 	const accessTokenSecret = process.env.ACCESSTOKENSECRET;
 
-	const verified = await authMethod.verifyToken(
+	const verified = authMethod.verifyToken(
 		accessTokenFromHeader.replace('Bearer ', ''),
 		accessTokenSecret
 	);
@@ -168,7 +168,7 @@ exports.isAuthUserDelete = async (req, res, next) => {
 	})	
 };
 
-exports.isAuthCheckBoard = async (req, res, next) => {
+exports.isAuthCheckBoard = (req, res, next) => {
 	NoteAPI.check_board(req, res, function(err, result) {
         if (result == null) {
 			res.json({message: err})			
