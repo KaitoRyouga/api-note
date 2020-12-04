@@ -37,7 +37,7 @@ User.getUserById = function getUser(userId, fun, result) {
 User.checkLogin = function getUser(userTrans, result) {
 
     try {
-        sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, async function (err, res) {
+        sql.query("Select password, id from USER_NOTE where username = ? ", userTrans.username, function (err, res) {
             if(err) {
                 result(err, null);
             }else if (res.length == 0){
@@ -46,14 +46,14 @@ User.checkLogin = function getUser(userTrans, result) {
             else{
                 const passLog = userTrans.password
     
-                const isPasswordMatch = await bcrypt.compare(passLog, res[0].password)
+                const isPasswordMatch = bcrypt.compare(passLog, res[0].password)
         
                 const resultUser = {
                     username: userTrans.username,
                     id: res[0].id
                 }
 
-                if(await isPasswordMatch){
+                if(isPasswordMatch){
                     result(null, resultUser);
                 }else{
                     result('Wrong username/password !', null);
